@@ -5,7 +5,10 @@ ARG UPLOADER_VER
 ENV UPX_VER=${UPX_VER:-4.0.0}
 ENV UPLOADER_VER=${UPLOADER_VER:-v0.9.1}
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+RUN sed -i "s@/archive.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g" /etc/apt/sources.list \
+    && rm -Rf /var/lib/apt/lists/* \
+    && DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
   curl \
   wget \
   git \
